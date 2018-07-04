@@ -1,0 +1,43 @@
+- vsphere_guest:
+    vcenter_hostname: 172.180.0.200
+    username: root
+    password: Esgipqri@75
+    guest: Romixx
+    state: powered_on
+    vm_extra_config:
+      vcpu.hotadd: yes
+      mem.hotadd:  yes
+      notes: This is a test VM
+      folder: MyFolder
+    vm_disk:
+      disk1:
+        size_mb: 10
+        type: thin
+        datastore: datastore1
+        # VMs can be put into folders. The value given here is either the full path
+        # to the folder (e.g. production/customerA/lamp) or just the last component
+        # of the path (e.g. lamp):
+        #folder: production/customerA/lamp
+    vm_nic:
+      nic1:
+        type: vmxnet3
+        network: VM Network
+        network_type: standard
+      nic2:
+        type: vmxnet3
+        network: dvSwitch Network
+        network_type: dvs
+    vm_hardware:
+      memory_mb: 16
+      num_cpus: 1
+      osid: centos64Guest
+      scsi: paravirtual
+      #vm_cdrom:
+      #  type: "iso"
+      #  iso_path: "DatastoreName/cd-image.iso"
+      #vm_floppy:
+      #  type: "image"
+      #  image_path: "DatastoreName/floppy-image.flp"
+    esxi:
+      datacenter: Paris
+      hostname: 172.180.0.50
