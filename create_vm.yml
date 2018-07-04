@@ -1,7 +1,13 @@
+---
+- name: Create VM
+  hosts: localhost
+  vars_files: 
+    - credential.yml
+  
 - vsphere_guest:
     vcenter_hostname: 172.180.0.200
-    username: root
-    password: Esgipqri@75
+    username: "{{ vc_user }}"
+    password: "{{ vc_pass }}"
     guest: Romixx
     state: powered_on
     vm_extra_config:
