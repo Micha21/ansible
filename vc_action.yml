@@ -1,0 +1,46 @@
+---
+- name: Action Vcenter
+  hosts: localhost
+  vars_files:
+    - credential.yml
+
+  tasks:
+  - name: Create Datacenter
+    local_action:
+      module: vmware_datacenter
+      hostname: "{{ vc_ip }}"
+      username: "{{ vc_user }}"
+      password: "{{ vc_pwd }}"
+      datacenter_name: "{{ dc_name }}"
+      state: present
+      validate_certs: no
+    tags: dc
+
+  - name: Create Cluster with HA
+    local_action:
+      module: vmware_cluster
+      hostname: "{{ vc_ip }}"
+      username: "{{ vc_user }}"
+      password: "{{ vc_pwd }}"
+      datacenter_name: "{{ dc_name }}"
+      cluster_name: "{{ cluster_name }}"
+      enable_ha: yes
+      enable_drs: no
+      enable_vsan: no
+      validate_certs: no
+    tags: cluster
+
+  - name: Create ESXi
+    local_action:
+      module: vmware_host
+      hostname: "{{ vc_ip }}"
+      username: "{{ vc_user }}"
+      password: "{{ vc_pwd }}"
+      datacenter_name: "{{ dc_name }}"
+      cluster_name: "{{ cluster_name }}"
+      esxi_hostname: "{{ esxi_hostname }}"
+      esxi_username: "{{ esxi_user }}"
+      esxi_password: "{{ esxi_pwd }}"
+      state: present
+      validate_certs: no
+    tags: hosts
